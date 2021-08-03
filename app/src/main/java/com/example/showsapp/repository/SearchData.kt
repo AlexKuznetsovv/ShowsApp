@@ -7,22 +7,24 @@ import com.example.showsapp.data.api.ShowInterface
 import com.example.showsapp.data.dataObj.SearchShowsResponse
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 
 
-class SearchData(private val apiService: ShowInterface, private val compositeDisposable: CompositeDisposable) {
+class SearchData(
+    private val apiService: ShowInterface,
+    private val compositeDisposable: CompositeDisposable
+) {
 
     private val _networkState = MutableLiveData<NetworkState>()
     val networkState: LiveData<NetworkState>
-        get() =_networkState
+        get() = _networkState
 
 
     private val _showResponse = MutableLiveData<SearchShowsResponse>()
     val showResponse: LiveData<SearchShowsResponse>
-        get() =_showResponse
+        get() = _showResponse
 
 
-    fun fetchShows(name:String){
+    fun fetchShows(name: String) {
         _networkState.postValue(NetworkState.LOADING)
         try {
             compositeDisposable.add(
@@ -34,7 +36,7 @@ class SearchData(private val apiService: ShowInterface, private val compositeDis
                             _showResponse.postValue(it)
                             Log.e("SEARCH", it.toString())
                             _networkState.postValue(NetworkState.LOADED)
-                        },{
+                        }, {
                             _networkState.postValue(NetworkState.ERROR)
                             Log.e("MovieDetailsDataSource", it.message.toString())
 
@@ -42,9 +44,8 @@ class SearchData(private val apiService: ShowInterface, private val compositeDis
                     )
             )
 
-        }
-        catch (e: Exception){
-            Log.e("MovieDetailsDataSource",e.message.toString())
+        } catch (e: Exception) {
+            Log.e("MovieDetailsDataSource", e.message.toString())
         }
 
     }

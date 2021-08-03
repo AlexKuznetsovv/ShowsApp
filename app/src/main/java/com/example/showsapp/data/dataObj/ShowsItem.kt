@@ -1,8 +1,6 @@
 package com.example.showsapp.data.dataObj
 
 
-import com.google.gson.annotations.SerializedName
-
 data class ShowsItem(
     val averageRuntime: Int = 0,
     val dvdCountry: Any = Any(),

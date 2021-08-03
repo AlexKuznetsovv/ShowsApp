@@ -1,6 +1,6 @@
 package com.example.showsapp.data.dataObj
 
-class SearchShowsResponse:ArrayList<ResponseShowItems>()
+class SearchShowsResponse : ArrayList<ResponseShowItems>()
 
 
 data class ResponseShowItems(

@@ -12,12 +12,12 @@ import com.example.showsapp.repository.ShowDataSource
 import com.example.showsapp.repository.ShowDataSourceFactory
 import io.reactivex.disposables.CompositeDisposable
 
-class ShowPagedListRepo (private val apiService: ShowInterface){
+class ShowPagedListRepo(private val apiService: ShowInterface) {
 
     lateinit var showPagedList: LiveData<PagedList<ShowsItem>>
     lateinit var ShowDataSourceFactory: ShowDataSourceFactory
 
-    fun fetchLiveMoviePagedList (compositeDisposable: CompositeDisposable) : LiveData<PagedList<ShowsItem>> {
+    fun fetchLiveMoviePagedList(compositeDisposable: CompositeDisposable): LiveData<PagedList<ShowsItem>> {
         ShowDataSourceFactory = ShowDataSourceFactory(apiService, compositeDisposable)
 
         val config = PagedList.Config.Builder()
@@ -33,6 +33,7 @@ class ShowPagedListRepo (private val apiService: ShowInterface){
     fun getNetworkState(): LiveData<NetworkState> {
 
         return Transformations.switchMap<ShowDataSource, NetworkState>(
-            ShowDataSourceFactory.showLiveDataSource, ShowDataSource::networkState)
+            ShowDataSourceFactory.showLiveDataSource, ShowDataSource::networkState
+        )
     }
 }

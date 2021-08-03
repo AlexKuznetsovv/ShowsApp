@@ -16,12 +16,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.showsapp.R
 import com.example.showsapp.data.api.ShowClient
 import com.example.showsapp.data.api.ShowInterface
-import com.example.showsapp.data.dataObj.Show
 import com.example.showsapp.repository.NetworkState
 import kotlinx.android.synthetic.main.fragment_search.*
 
 
-class SearchFragment() : Fragment() {
+class SearchFragment : Fragment() {
 
     private lateinit var viewModel: SearchDataViewModel
 
@@ -30,41 +29,38 @@ class SearchFragment() : Fragment() {
     lateinit var searchAdapter: SearchAdapter
 
 
-    var showName:String? = ""
+    var showName: String? = ""
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onStart() {
-        val apiService : ShowInterface = ShowClient.getClient()
+        val apiService: ShowInterface = ShowClient.getClient()
         searchRepository = SearchDataRepo(apiService)
         viewModel = getViewModel(showName!!)
-        viewModel.showDetails.observe(this,Observer{
+        viewModel.showDetails.observe(this, Observer {
 
-            if (it.isNullOrEmpty()){
+            if (it.isNullOrEmpty()) {
                 txt_no_results_fragment.visibility = View.VISIBLE
 
-            }
-            else{
+            } else {
                 txt_no_results_fragment.visibility = View.GONE
                 initRecyclerView()
                 searchAdapter.showsData = it
                 searchAdapter.notifyDataSetChanged()
             }
 
-            Log.d("aaaaaaa",it.isNullOrEmpty().toString())
-            Log.d("aaaaaaa",it.toString())
+            Log.d("aaaaaaa", it.isNullOrEmpty().toString())
+            Log.d("aaaaaaa", it.toString())
 
 
         })
 
         viewModel.networkState.observe(this, Observer {
-            progress_bar_fragment.visibility = if (it== NetworkState.LOADING) View.VISIBLE else View.GONE
-            txt_error_fragment.visibility = if (it == NetworkState.ERROR) View.VISIBLE else View.GONE
-            rv_search_show_list.visibility = if (it ==NetworkState.LOADED) View.VISIBLE else View.GONE
+            progress_bar_fragment.visibility =
+                if (it == NetworkState.LOADING) View.VISIBLE else View.GONE
+            txt_error_fragment.visibility =
+                if (it == NetworkState.ERROR) View.VISIBLE else View.GONE
+            rv_search_show_list.visibility =
+                if (it == NetworkState.LOADED) View.VISIBLE else View.GONE
 
         })
 
@@ -77,19 +73,19 @@ class SearchFragment() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-         val bundle = this.arguments
-         showName = bundle!!.getString("name")
+        val bundle = this.arguments
+        showName = bundle!!.getString("name")
 
 
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
 
-    private fun getViewModel(movieName:String): SearchDataViewModel {
+    private fun getViewModel(movieName: String): SearchDataViewModel {
         return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
-                return SearchDataViewModel(searchRepository,movieName.replace(" ","%")) as T
+                return SearchDataViewModel(searchRepository, movieName.replace(" ", "%")) as T
             }
         })[SearchDataViewModel::class.java]
     }
@@ -98,7 +94,8 @@ class SearchFragment() : Fragment() {
 
         rv_search_show_list.apply {
             layoutManager = LinearLayoutManager(context)
-            val dividerItemDecoration = DividerItemDecoration(context, StaggeredGridLayoutManager.VERTICAL)
+            val dividerItemDecoration =
+                DividerItemDecoration(context, StaggeredGridLayoutManager.VERTICAL)
             addItemDecoration(dividerItemDecoration)
             searchAdapter = SearchAdapter(context)
             adapter = searchAdapter

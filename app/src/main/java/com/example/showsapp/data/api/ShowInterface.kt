@@ -1,8 +1,9 @@
 package com.example.showsapp.data.api
 
 
-import com.example.showsapp.data.dataObj.*
-import io.reactivex.Observable
+import com.example.showsapp.data.dataObj.SearchShowsResponse
+import com.example.showsapp.data.dataObj.Show
+import com.example.showsapp.data.dataObj.Shows
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -21,13 +22,15 @@ interface ShowInterface {
     @Headers("Accept: application/json")
     fun getShows(
         @Query("page")
-        page: Int?):  Single<Shows>
+        page: Int?
+    ): Single<Shows>
 
 
     @GET("/search/shows/")
     @Headers("Accept: application/json")
     fun getShowsByName(
         @Query("q")
-        name: String?):  Single<SearchShowsResponse>
+        name: String?
+    ): Single<SearchShowsResponse>
 
 }

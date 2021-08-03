@@ -8,18 +8,21 @@ import com.example.showsapp.data.dataObj.Show
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class ShowDetailsNetworkSource(private val apiService:ShowInterface, private val compositeDisposable:CompositeDisposable) {
+class ShowDetailsNetworkSource(
+    private val apiService: ShowInterface,
+    private val compositeDisposable: CompositeDisposable
+) {
 
     private val _networkState = MutableLiveData<NetworkState>()
     val networkState: LiveData<NetworkState>
-        get() =_networkState
+        get() = _networkState
 
 
     private val _showResponse = MutableLiveData<Show>()
     val showResponse: LiveData<Show>
-        get() =_showResponse
+        get() = _showResponse
 
-    fun fetchShow(showId:Int){
+    fun fetchShow(showId: Int) {
         _networkState.postValue(NetworkState.LOADING)
         try {
             compositeDisposable.add(
@@ -29,7 +32,7 @@ class ShowDetailsNetworkSource(private val apiService:ShowInterface, private val
                         {
                             _showResponse.postValue(it)
                             _networkState.postValue(NetworkState.LOADED)
-                        },{
+                        }, {
                             _networkState.postValue(NetworkState.ERROR)
                             Log.e("MovieDetailsDataSource", it.message.toString())
 
@@ -37,9 +40,8 @@ class ShowDetailsNetworkSource(private val apiService:ShowInterface, private val
                     )
             )
 
-        }
-        catch (e: Exception){
-            Log.e("MovieDetailsDataSource",e.message.toString())
+        } catch (e: Exception) {
+            Log.e("MovieDetailsDataSource", e.message.toString())
         }
 
     }

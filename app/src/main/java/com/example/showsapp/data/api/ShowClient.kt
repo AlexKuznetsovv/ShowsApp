@@ -12,25 +12,21 @@ const val FIRST_PAGE = 1
 const val POST_PER_PAGE = 20
 
 
-
-
-
-
 object ShowClient {
 
-fun getClient(): ShowInterface{
+    fun getClient(): ShowInterface {
 
-    val okHttpClient = OkHttpClient.Builder()
-        .connectTimeout(60,TimeUnit.SECONDS)
-        .build()
+        val okHttpClient = OkHttpClient.Builder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .build()
 
-    return Retrofit.Builder()
-        .client(okHttpClient)
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .build()
-        .create(ShowInterface::class.java)
-}
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+            .create(ShowInterface::class.java)
+    }
 
 }

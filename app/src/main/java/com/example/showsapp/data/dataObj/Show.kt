@@ -38,12 +38,13 @@ data class Show(
     val url: String? = null,
 
 
+    )
 
-)
 data class Rating(
     @SerializedName("average")
     val average: Double? = null
 )
+
 data class Image(
     @SerializedName("medium")
     val medium: String? = null,

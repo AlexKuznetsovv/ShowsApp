@@ -28,14 +28,14 @@ class HomeActivity : AppCompatActivity() {
 
     lateinit var searchRepository: SearchDataRepo
 
-    lateinit var searchFragment:SearchFragment
+    lateinit var searchFragment: SearchFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         supportActionBar?.hide()
 
-        val apiService : ShowInterface = ShowClient.getClient()
+        val apiService: ShowInterface = ShowClient.getClient()
 
         movieRepository = ShowPagedListRepo(apiService)
         searchRepository = SearchDataRepo(apiService)
@@ -49,10 +49,10 @@ class HomeActivity : AppCompatActivity() {
         gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 val viewType = movieAdapter.getItemViewType(position)
-                if (viewType == movieAdapter.SHOW_VIEW_TYPE) return  1    // Movie_VIEW_TYPE will occupy 1 out of 3 span
+                if (viewType == movieAdapter.SHOW_VIEW_TYPE) return 1    // Movie_VIEW_TYPE will occupy 1 out of 3 span
                 else return 3                                              // NETWORK_VIEW_TYPE will occupy all 3 span
             }
-        };
+        }
 
 
         rv_movie_list.layoutManager = gridLayoutManager
@@ -65,8 +65,10 @@ class HomeActivity : AppCompatActivity() {
         })
 
         viewModel.networkState.observe(this, Observer {
-            progress_bar_fragment.visibility = if (viewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
-            txt_error_popular.visibility = if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
+            progress_bar_fragment.visibility =
+                if (viewModel.listIsEmpty() && it == NetworkState.LOADING) View.VISIBLE else View.GONE
+            txt_error_popular.visibility =
+                if (viewModel.listIsEmpty() && it == NetworkState.ERROR) View.VISIBLE else View.GONE
 
             if (!viewModel.listIsEmpty()) {
                 movieAdapter.setNetworkState(it)
@@ -76,7 +78,7 @@ class HomeActivity : AppCompatActivity() {
 
 
 
-        search_EditText.addTextChangedListener(object :TextWatcher{
+        search_EditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
 
             }
@@ -88,21 +90,19 @@ class HomeActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
 
-
-                if (s!!.isNotEmpty()){
+                if (s!!.isNotEmpty()) {
                     closeEditText.visibility = View.VISIBLE
                     val bundle = Bundle()
-                    bundle.putString("name",s.toString())
+                    bundle.putString("name", s.toString())
 
                     rv_movie_list.visibility = View.GONE
                     searchFragment = SearchFragment()
                     searchFragment.arguments = bundle
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.searchFragment,searchFragment)
+                        .replace(R.id.searchFragment, searchFragment)
                         .commit()
 
-                }
-                else{
+                } else {
                     closeEditText.visibility = View.VISIBLE
                     rv_movie_list.visibility = View.VISIBLE
                 }
@@ -139,7 +139,6 @@ class HomeActivity : AppCompatActivity() {
             }
         })[HomeActivityViewModel::class.java]
     }
-
 
 
 }

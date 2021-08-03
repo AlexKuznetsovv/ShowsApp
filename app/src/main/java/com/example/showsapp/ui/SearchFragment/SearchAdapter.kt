@@ -15,9 +15,10 @@ import com.example.showsapp.utils.loadImage
 import kotlinx.android.synthetic.main.search_shows_list.view.*
 
 
-class SearchAdapter(public val context: Context) : RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
+class SearchAdapter(val context: Context) :
+    RecyclerView.Adapter<SearchAdapter.MyViewHolder>() {
 
-     lateinit var showsData:List<ResponseShowItems>
+    lateinit var showsData: List<ResponseShowItems>
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -47,13 +48,15 @@ class SearchAdapter(public val context: Context) : RecyclerView.Adapter<SearchAd
         fun bind(data: Show) {
             title.text = data.name
             lang.text = "Language : " + data.language
-                if (data.rating?.average!=null){
-                    rating.text =
-                "Rating : "+data.rating.average.toString()
-                    rating.visibility = View.VISIBLE
-            }else {rating.visibility = View.GONE}
+            if (data.rating?.average != null) {
+                rating.text =
+                    "Rating : " + data.rating.average.toString()
+                rating.visibility = View.VISIBLE
+            } else {
+                rating.visibility = View.GONE
+            }
 
-            premiered.text = "Premiered : "+data.premiered
+            premiered.text = "Premiered : " + data.premiered
 
             image.loadImage(data.image?.original, progressDrawable)
 
